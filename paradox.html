@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+<!-- Load the Paper.js library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript" src="http://paperjs.org/assets/js/paper.js"></script>
+<!-- Define inlined PaperScript associate it with myCanvas -->
+<script type="text/paperscript" canvas="myCanvas">
+var angle = 0;
+var sides = 3;
+var a = 49;
+var h = 17;
+var amp = 30;
+var dwn = true;
+var last;
+var size = 300;
+
+tool.onKeyDown = function(event){
+	switch(event.key){
+		case 'down':
+			if(sides > 3)
+				sides--;
+		break;
+		case 'up':
+			if(sides < 13)
+				sides++;
+		break;
+		case 'left':
+			if(amp > 3)
+				amp--;
+				console.log("amp--  -  " + amp)
+		break;
+		case 'right':
+			if(amp < 80)
+				amp++;
+				console.log("amp++  -  " + amp)
+		break;
+		case 'control':
+			if(size > 20)
+				size--;
+				console.log("size--  -  " + size)
+		break;
+		case 'shift':
+			if(size < 900)
+				size++;
+				console.log("size++  -  " + size)
+		break;
+
+	}
+}
+function onFrame(event){
+	project.activeLayer.removeChildren();
+	var last = new Path.RegularPolygon(view.center, sides, size);
+	last.strokeColor = '#131313';
+	var angle = 0;
+	a = amp*Math.sin((amp*0.00333333)*h)+amp+1.5;
+	h++;
+
+	for(var i=size;i > 0;i=i-a){
+		var tri = new Path.RegularPolygon(view.center, sides, i);
+		tri.strokeColor = '#131313';
+		tri.rotate(angle);
+		for(var count=0; last.getIntersections(tri).length == 0 && count < 360; count++){
+			tri.rotate(.1)
+			angle = angle+.1;
+		}
+		var last = tri;
+	}
+}
+
+
+
+function showIntersections(path1, path2) {
+    var intersections = path1.getIntersections(path2);
+    for (var i = 0; i < intersections.length; i++) {
+        new Path.Circle({
+            center: intersections[i].point,
+            radius: 5,
+            fillColor: '#009dec'
+        }).removeOnMove();
+    }
+}
+</script>
+
+</head>
+<body>
+	<canvas id="myCanvas" resize style="width:100%;height:100%;margin:auto;"></canvas>
+</body>
+</html>
