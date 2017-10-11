@@ -1,6 +1,8 @@
 # Paper.js Paradox Fractal
 
 Demo http://in4.us/img/paradox.html
+
+
 this is a very simple paper.js demo/toy. Every frame it will draw a polygon. It will do some math and make each poly slightly smaller, then rotate it until it intersects with the previous polygon. It creates a spiral-like structure.
 
 Some images I've made with this:
